@@ -8,7 +8,7 @@ import KyleMuskLogo from "../../images/kyleMusk.png";
 import RobertMuskLogo from "../../images/robertMusk.png";
 import MuiAlert from "@mui/material/Alert";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchStoryDataCreator } from "./redux/slice";
+import { fetchStoryDataCreator, landingSliceActions } from "./redux/slice";
 
 export default function Landing() {
   const [data, setData] = React.useState([]);
@@ -32,28 +32,10 @@ export default function Landing() {
 
   const handleClose = () => setOpen(false);
 
-  const updateGender = (id, gender) => {
-    const copyData = [...data];
-    const found = copyData.find((rec) => rec.id === id);
-    if (found) {
-      found.gender = gender;
-    }
-    setData(copyData);
-  };
-
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  const updateData = (fieldData) => {
-    const copyData = [...data];
-    const found = copyData.find((rec) => rec.id === fieldData.id);
-    if (found) {
-      found[fieldData.field] = fieldData.value;
-    }
-    setData(copyData);
-    setOpen(true);
-  };
   const renderParent = (params) => {
     if (params.row.type === "C") {
       return (
@@ -112,7 +94,16 @@ export default function Landing() {
       editable: true,
       renderCell: (params) => (
         <Select
-          onChange={(event) => updateGender(params.id, event.target.value)}
+          onChange={(event) => {
+            dispatch(
+              landingSliceActions.updateData({
+                id: params.id,
+                value: event.target.value,
+                field: "gender",
+              })
+            );
+            setOpen(true);
+          }}
           label="Gender"
           value={params.value}
           renderValue={() => <span>{params.value}</span>}
@@ -183,7 +174,10 @@ export default function Landing() {
         pageSize={5}
         rowsPerPageOptions={[5]}
         disableSelectionOnClick
-        onCellEditCommit={updateData}
+        onCellEditCommit={(e) => {
+          dispatch(landingSliceActions.updateData(e));
+          setOpen(true);
+        }}
       />
       <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>

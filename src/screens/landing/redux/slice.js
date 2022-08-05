@@ -12,6 +12,14 @@ const landingSlice = createSlice({
     putStoryData: (state, action) => {
       return { ...state, storyData: action.payload };
     },
+    updateData: (state, action) => {
+      const copyData = JSON.parse(JSON.stringify(state.storyData));
+      const found = copyData.find((rec) => rec.id === action.payload.id);
+      if (found) {
+        found[action.payload.field] = action.payload.value;
+      }
+      return { ...state, storyData: copyData };
+    },
   },
 });
 export const landingSliceReducer = landingSlice.reducer;
