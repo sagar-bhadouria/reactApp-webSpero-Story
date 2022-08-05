@@ -1,0 +1,42 @@
+.table-cell-trucate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.parents {
+  color: #486da1;
+}
+.image {
+  width: 30px;
+  height: 30px;
+  border-radius: 20%;
+}
+.parentsAndSiblings {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+}
+.Siblings {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  border-left: 10px solid #486da1;
+}
+.nameContainer {
+  margin-left: 10px;
+  font-weight: bold;
+}
+.imageContainer {
+  margin-left: 10px;
+}
+.toast {
+  background-color: green;
+}
+.box {
+  height: 100%;
+  width: 50%;
+  background-color: blue;
+}
+.genderDropDwon {
+  width: 100%;
+}
